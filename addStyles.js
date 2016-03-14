@@ -211,9 +211,15 @@ function applyToSingletonTag(styleElement, index, remove, obj) {
 function applyToTag(styleElement, obj) {
 	var css = obj.css;
 	var media = obj.media;
+	var sourceMap = obj.sourceMap;
 
 	if(media) {
 		styleElement.setAttribute("media", media)
+	}
+
+	if(sourceMap && typeof btoa === "function") {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
 	}
 
 	if(styleElement.styleSheet) {
